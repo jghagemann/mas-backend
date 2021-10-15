@@ -7,11 +7,14 @@ interface ICourseUnitData {
 }
 
 class CreateCourseUnitService {
-  public async execute({ name, description }: ICourseUnitData) {
+  public async execute(data: ICourseUnitData) {
+    const { name, description } = data;
     const courseUnitRepository = getRepository(CourseUnit);
     const checkCourseUnitExists = await courseUnitRepository.findOne({ name });
     if (checkCourseUnitExists) {
-      throw new Error("Course Unit already exists");
+      return {
+        error: "Course Unit name already exists"
+      }
     }
     const courseUnit = courseUnitRepository.create({ name, description })
     await courseUnitRepository.save(courseUnit);

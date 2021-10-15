@@ -32,7 +32,7 @@ class Activity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => CourseUnit, couse_unit => couse_unit.activities)
+  @ManyToOne(() => CourseUnit, course_unit => course_unit.activities)
   @JoinColumn()
   course_unit: CourseUnit;
 }
