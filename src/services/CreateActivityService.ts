@@ -9,11 +9,14 @@ interface IActivityData {
 }
 
 class CreateActivityService {
-  public async execute({name, activity_date, courseUnitId, grade}: IActivityData) {
+  public async execute(data: IActivityData) {
+    const {name, activity_date, courseUnitId, grade} = data;
     const activityRepository = getRepository(Activity);
-    const checkActivityExists = await activityRepository.findOne({ name });
+    const checkActivityExists = await activityRepository.findOne({ name, courseUnitId });
     if (checkActivityExists) {
-      throw new Error("Activity already exists");
+      return {
+        error: "Activity name already exists"
+      }    
     }
     const activity = activityRepository.create({
       name,

@@ -9,11 +9,14 @@ interface IUserData {
 }
 
 class CreateUserService {
-  public async execute({ name, email, password }: IUserData) {
+  public async execute(data: IUserData) {
+    const { name, email, password } = data;
     const usersRepository = getRepository(User);
     const checkUserExists = await usersRepository.findOne({ email });
     if (checkUserExists) {
-      throw new Error("Email address already exists");
+      return {
+        error: "Email address already exists"
+      }
     }
     const hashedPassword = await hash(password, 8);
     const user = usersRepository.create({
