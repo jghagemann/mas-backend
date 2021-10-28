@@ -11,8 +11,9 @@ class UserController {
   }
 
   async show(request: Request, response: Response) {
+    const userId = request.body.user;
     const getUsers = new GetUserService()
-    const users = await getUsers.execute();
+    const users = await getUsers.execute(userId);
     return response.json(users);
   }
 }
