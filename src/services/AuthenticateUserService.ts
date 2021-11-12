@@ -10,8 +10,7 @@ interface IAuthData {
 }
 
 class AuthenticateUserService {
-  public async execute(data: IAuthData): Promise<String | {}> {
-    const { email, password } = data;
+  public async execute({email, password}: IAuthData): Promise<String | {}> {
     const usersRepository = getRepository(User);
     const user = await usersRepository.findOne({ email });
     if (!user) {
@@ -25,13 +24,22 @@ class AuthenticateUserService {
         error: "Incorrect password",
       };
     }
-    const { privateKey, expiresIn } = authConfig.jwt;
-    const token = sign({"role":"user"},privateKey,{
-      algorithm: "RS256",
+    const { secret, expiresIn } = authConfig.jwt;
+    const token = sign({"role":"user"},secret,{
+      // algorithm: "RS256",
       subject: user.id,
       expiresIn
   });
-    return {auth: token};
+    const {id, name, email:emailUser} = user
+
+    return {
+      user: {
+        id,
+        name,
+        email: emailUser
+      },
+      token
+    };
   }
 }
 

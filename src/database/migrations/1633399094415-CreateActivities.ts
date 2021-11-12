@@ -17,7 +17,7 @@ export class CreateActivities1633399094415 implements MigrationInterface {
           },
           {
             name: "activity_date",
-            type: "varchar",
+            type: "timestamp",
           },
           {
             name: "courseUnitId",

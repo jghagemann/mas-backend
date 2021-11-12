@@ -9,8 +9,7 @@ interface IActivityData {
 }
 
 class CreateActivityService {
-  public async execute(data: IActivityData) {
-    const {name, activity_date, courseUnitId, grade} = data;
+  public async execute({name, activity_date, grade, courseUnitId}: IActivityData) {
     const activityRepository = getRepository(Activity);
     const checkActivityExists = await activityRepository.findOne({ name, courseUnitId });
     if (checkActivityExists) {
