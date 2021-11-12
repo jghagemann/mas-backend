@@ -15,7 +15,7 @@ export default function authenticated(request: Request, response: Response, next
     })
   }
   const [, token] = headerAuthorization.split(" ");
-  const verifyToken = verify(token, authConfig.jwt.publicKey);
+  const verifyToken = verify(token, authConfig.jwt.secret);
   if (!verifyToken) {
     throw new Error("Invalid Token")
   }
